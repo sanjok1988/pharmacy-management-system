@@ -5,15 +5,15 @@ use Session;
 use Validate;
 use Illuminate\Http\Request;
 use App\Modules\BaseController;
-use App\Modules\Category\Repository\ICategory;
+
+use App\Modules\Category\Models\Category;
 use App\Modules\Category\Requests\StoreCategoryRequest;
-use App\Modules\Category\Requests\RequestUpdateCategory;
 
 class CategoryController extends BaseController
 {
     protected $category;
 
-    public function __construct(ICategory $category)
+    public function __construct(Category $category)
     {
         $this->middleware('auth');
         $this->category = $category;
@@ -25,7 +25,7 @@ class CategoryController extends BaseController
      */
     public function index()
     {
-        $categories = $this->category->getAll();
+        $categories = $this->category->paginate(10);
         return view("Category::index", compact('categories'));
     }
  
@@ -47,11 +47,26 @@ class CategoryController extends BaseController
      */
     public function store(StoreCategoryRequest $request)
     {
-        if ($this->category->create($request->only('name', 'display_name'))) {
-            Session::flash('message', "Success");
+        $data = $request->only('category_name', 'slug');
+        if ($request->has('id')) {
+            $find = $this->category->find($data);
+            if ($find) {
+                if ($find->update($request->id)) {
+                    Session::flash("message", "Successfully Updated");
+                } else {
+                    Session::flash("message", "Update Failed");
+                }
+            } else {
+                Session::flash("message", "Data not found");
+            }
         } else {
-            Session::flash('message', "Failed");
+            if ($this->category->create($data)) {
+                Session::flash('message', "Success");
+            } else {
+                Session::flash('message', "Failed");
+            }
         }
+        
         /**
          * continue button logic implementation
          */
@@ -72,7 +87,6 @@ class CategoryController extends BaseController
      */
     public function edit($id)
     {
-        
         $category = $this->category->find($id);
         return view('Category::edit', compact('category'));
     }

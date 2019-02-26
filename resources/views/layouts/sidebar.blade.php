@@ -19,52 +19,47 @@
 
       <!-- Sidebar Menu -->
       <ul class="sidebar-menu" data-widget="tree">
-        <li class="header">EMS</li>
+        <li class="header">{{ Config::get('app.name')}}</li>
         <!-- Optionally, you can add icons to the links -->
         <li class="treeview">
-            <a href="#"><i class="fa fa-link"></i> <span>Company</span>
+            <a href="#"><i class="fa fa-link"></i> <span>Products</span>
               <span class="pull-right-container">
                   <i class="fa fa-angle-left pull-right"></i>
                 </span>
             </a>
             <ul class="treeview-menu">
-              <li><a href="{{ url('subjects') }}">View List</a></li>
-              <li><a href="{{ url('subjects/add') }}">Add New</a></li>
+                <li><a href="{{ url('admin/products/add') }}">Add New</a></li>
+                <li><a href="{{ url('admin/category') }}">Add Category</a></li>
+              <li><a href="{{ url('admin/products') }}">View List</a></li>
+              <li><a href="{{ url('admin/products/expired') }}">View Expired Product List</a></li>
+              
             </ul>
           </li>
           <li class="treeview">
-              <a href="#"><i class="fa fa-link"></i> <span>Employees</span>
+              <a href="#"><i class="fa fa-link"></i> <span>Orders</span>
                 <span class="pull-right-container">
                     <i class="fa fa-angle-left pull-right"></i>
                   </span>
               </a>
               <ul class="treeview-menu">
-                <li><a href="{{ url('employees') }}">View List</a></li>
-                <li><a href="{{ url('employees/add') }}">Add New</a></li>
+                <li><a href="{{ url('admin/orders') }}">View Order List</a></li>
+                <li><a href="{{ url('admin/transaction') }}">View Transaction List</a></li>
+                
               </ul>
             </li>
-        <li class="treeview">
-          <a href="#"><i class="fa fa-link"></i> <span>Roles</span>
-            <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="{{ url('exams') }}">View List</a></li>
-            <li><a href="{{ url('exams/add') }}">Add New</a></li>
-          </ul>
-        </li>
-        
-        
+          
   
         <li class="treeview">
-          <a href="#"><i class="fa fa-link"></i> <span>Users</span>
+          <a href="#"><i class="fa fa-link"></i> <span>System Users</span>
             <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
               </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{{ url('users') }}">View List</a></li>
+              <li><a href="{{ url('admin//add') }}">Add New User</a></li>
+            <li><a href="{{ url('users') }}">View User List</a></li>
+            <li><a href="{{ url('admin/roles') }}">View Role List</a></li>
+            
             
           </ul>
         </li>

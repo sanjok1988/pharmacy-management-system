@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Okhati') }}</title>
 
 
 
@@ -46,9 +46,9 @@
     <!-- Logo -->
     <a href="index2.html" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini"><b>E</b>MS</span>
+      <span class="logo-mini"><b>{{ config('app.name', 'Okhati') }}</span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>EM</b>System</span>
+      <span class="logo-lg"><b>{{ config('app.name', 'Okhati') }}</span>
     </a>
 
     <!-- Header Navbar -->

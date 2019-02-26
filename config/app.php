@@ -13,7 +13,7 @@ return [
     |
  */
 
-    'name' => env('APP_NAME', 'Employee Management System'),
+    'name' => env('APP_NAME', 'Okhati'),
 
     /*
     |--------------------------------------------------------------------------
@@ -169,7 +169,7 @@ return [
          * used to bind interface and controller for repository pattern
          * do not remove this
          */
-        App\Modules\Providers\RepositoryServiceProvider::class,
+      //  App\Modules\Providers\RepositoryServiceProvider::class,
 
     ],
 

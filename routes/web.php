@@ -10,7 +10,7 @@
 |
 */
 Route::get('/', function () {
-    return view('home');
+    return view('welcome');
 });
 
 //to switch the language in cms
@@ -44,18 +44,6 @@ Route::get('/admin', 'AdminController@index')->name('admin');
 Route::get('/admin/profile', 'AdminController@adminprofile');
 Route::post('/admin/profile', 'AdminController@adminprofile');
 
-Route::get('employee/login', 'EmployeeAuthController@loginPage');
-Route::group(['prefix'=>'employee', 'middleware' => ['auth']], function(){
-    
-
-    Route::post('login', 'EmployeeAuthController@login')->name('employee.login');
-    Route::get('profile', 'EmployeeAuthController@profile')->name('employee.profile');
-    /**
-     * Attendance
-     */
-    Route::get('signin', 'AttendanceController@signIn')->name('employee.signin');
-    Route::get('signout', 'AttendanceController@signOut')->name('employee.signout');
-});
 
 
 
@@ -74,10 +62,6 @@ Route::post('importExcel', 'ExportController@importExcel');
 Route::get('admin/media', function () {
     return view('dropzone');
 });
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

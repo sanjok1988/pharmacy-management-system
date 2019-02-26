@@ -20,7 +20,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Schema::defaultStringLength(191);
-        //This method will register the routes necessary to issue access tokens 
+        //This method will register the routes necessary to issue access tokens
         //and revoke access tokens, clients, and personal access tokens:
         Passport::routes();
         Passport::tokensExpireIn(now()->addDays(15));
@@ -44,6 +44,5 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(INews::class, NewsRepo::class);
     }
 }
