@@ -8,12 +8,18 @@ use App\Http\Controllers\Controller;
 
 class RolesController extends Controller
 {
-
-    public function __construct(Roles $roles){
+    public function __construct(Roles $roles)
+    {
         $this->roles = $roles;
     }
     
-    public function getData(){
+    public function index()
+    {
+        $data = $this->roles->paginate(10);
+        return view("Roles::index", compact('data'));
+    }
+    public function getData()
+    {
         $data = $this->roles->paginate(10);
         
         $response = [

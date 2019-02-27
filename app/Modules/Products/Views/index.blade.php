@@ -31,8 +31,9 @@
         <td>{{ $value->exp_date }}</td>
         <td>{{ $value->price }}</td>
         <td>
-          <span class="badge badge-success" v-if="item.deleted_at">Available</span>
-          <span class="badge badge-success" else>Unavailable</span>
+          
+          <span class="badge badge-success" >{{ ($value->status == "available")?"Available":"Unavailable" }}</span>
+         
         </td>
         <td>
             <a href="{{ route('product.edit', $value->id)}}" class="btn btn-outline-primary" alt="@lang('words.edit')"> <i class="fa fa-pencil"></i></a>

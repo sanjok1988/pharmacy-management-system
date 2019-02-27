@@ -2,14 +2,14 @@
 namespace App\Modules\Category\Controllers;
 
 use Session;
-use Validate;
 use Illuminate\Http\Request;
-use App\Modules\BaseController;
 
+use App\Http\Controllers\Controller;
+use App\Http\Requests\CategoryRequest;
 use App\Modules\Category\Models\Category;
 use App\Modules\Category\Requests\StoreCategoryRequest;
 
-class CategoryController extends BaseController
+class CategoryController extends Controller
 {
     protected $category;
 
@@ -25,8 +25,8 @@ class CategoryController extends BaseController
      */
     public function index()
     {
-        $categories = $this->category->paginate(10);
-        return view("Category::index", compact('categories'));
+        $data = $this->category->paginate(10);
+        return view("Category::index", compact('data'));
     }
  
     /**
@@ -45,36 +45,40 @@ class CategoryController extends BaseController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreCategoryRequest $request)
+    public function store(CategoryRequest $request)
     {
-        $data = $request->only('category_name', 'slug');
-        if ($request->has('id')) {
-            $find = $this->category->find($data);
-            if ($find) {
-                if ($find->update($request->id)) {
-                    Session::flash("message", "Successfully Updated");
+        $data = $request->only('category_name', 'details');
+        if (empty($request->slug)) {
+            $data['slug'] = strtolower($request->category_name);
+        } else {
+            $data['slug'] = strtolower($request->slug);
+        }
+        if (empty($request->status)) {
+            {
+            $data['status'] = "available";
+        }
+            if ($request->has('id')) {
+                $find = $this->category->find($request->id);
+                if ($find) {
+                    if ($find->update($request->id)) {
+                        Session::flash("message", "Successfully Updated");
+                    } else {
+                        Session::flash("message", "Update Failed");
+                    }
                 } else {
-                    Session::flash("message", "Update Failed");
+                    Session::flash("message", "Data not found");
                 }
             } else {
-                Session::flash("message", "Data not found");
-            }
-        } else {
-            if ($this->category->create($data)) {
-                Session::flash('message', "Success");
-            } else {
-                Session::flash('message', "Failed");
+                if ($this->category->create($data)) {
+                    Session::flash('message', "Success");
+                } else {
+                    Session::flash('message', "Failed");
+                }
             }
         }
         
-        /**
-         * continue button logic implementation
-         */
-        if ($request->has('continue')) {
-            return redirect()->back();
-        } else {
-            return redirect(route('indexCategory'));
-        }
+      
+        return redirect(route('category.index'));
     }
 
 
@@ -87,8 +91,10 @@ class CategoryController extends BaseController
      */
     public function edit($id)
     {
-        $category = $this->category->find($id);
-        return view('Category::edit', compact('category'));
+        $page = "Category";
+        $action = "edit";
+        $data = $this->category->find($id);
+        return view('Category::create', compact('data', 'page', 'action'));
     }
 
 
@@ -108,7 +114,7 @@ class CategoryController extends BaseController
         } else {
             Session::flash('message', 'Failed');
         }
-        return redirect(route('indexCategory'));
+        return redirect(route('category.index'));
     }
 
     /**
@@ -119,11 +125,12 @@ class CategoryController extends BaseController
      */
     public function destroy($id)
     {
-        if ($this->category->delete($id)) {
+        $find = $this->category->find($id);
+        if ($find->delete()) {
             Session::flash("message", "success");
         } else {
             Session::flash("message", "Failed");
         }
-        return redirect(route('indexCategory'));
+        return redirect(route('category.index'));
     }
 }

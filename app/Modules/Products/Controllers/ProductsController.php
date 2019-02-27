@@ -2,11 +2,15 @@
 
 namespace App\Modules\Products\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+
+use App\Http\Requests\ProductRequest;
+use Illuminate\Support\Facades\Session;
 use App\Modules\Category\Models\Category;
 use App\Modules\Products\Models\Products;
-
 use App\Http\Traits\UploadTrait as Upload;
 
 class ProductsController extends Controller
@@ -35,6 +39,13 @@ class ProductsController extends Controller
         $data = $this->product->paginate(10);
         return view("Products::index", compact('data'));
     }
+    
+    public function getExpiredProduct()
+    {
+        $page = "expired list";
+        $data = $this->product->where('exp_date', '<=', \Carbon\Carbon::now()->format("YYYY-mm-dd"))->paginate(10);
+        return view("Products::index", compact('data', 'page'));
+    }
 
     /**
      * show create form
@@ -55,10 +66,10 @@ class ProductsController extends Controller
      * @param productRequest $request
      * @return void
      */
-    public function store(productRequest $request)
+    public function store(ProductRequest $request)
     {
-        $data = $request->only('_except');
-      
+        $data = $request->except('_except');
+        
         //upload image using trait
         if ($request->file('image') != null) {
             $image = $this->upload($request->file('image'));
@@ -86,7 +97,7 @@ class ProductsController extends Controller
             }
         }
 
-        return redirect('admin/product');
+        return redirect(route('product.index'));
     }
 
    
@@ -95,11 +106,11 @@ class ProductsController extends Controller
     {
         $page = "product";
         $action = "edit";
-        $product= $this->product->find($id);
+        $data= $this->product->find($id);
 
         $categories = $this->category->get();
 
-        return view("Products::create", compact('product', 'categories', 'page', 'action'));
+        return view("Products::create", compact('data', 'categories', 'page', 'action'));
     }
 
     /**

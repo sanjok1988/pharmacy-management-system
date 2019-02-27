@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\app\Modules\Category\Requests;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class RequestStoreCategory extends FormRequest
+class CategoryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class RequestStoreCategory extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,8 @@ class RequestStoreCategory extends FormRequest
     public function rules()
     {
         return [
-            //
+            'category_name'=>'required',
+            'slug'=>'required|alpha_dash|unique:categories,slug'
         ];
     }
 }

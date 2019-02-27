@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateCompanyRequest extends FormRequest
+class ProductRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class CreateCompanyRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,12 @@ class CreateCompanyRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'product_name' =>'required',
+            'category_id' =>'required',
+            'mfd' => 'required',
+            'exp_date' => 'required|date|after_or_equal:start_date'
+            // 'mfd'=>'required|date_format:YYYY-mm-dd',
+            // 'exp_date'=>'required|date_format:YYYY-mm-dd'
         ];
     }
 }

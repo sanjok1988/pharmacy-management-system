@@ -28,10 +28,10 @@
                 </span>
             </a>
             <ul class="treeview-menu">
-                <li><a href="{{ url('admin/products/add') }}">Add New</a></li>
-                <li><a href="{{ url('admin/category') }}">Add Category</a></li>
-              <li><a href="{{ url('admin/products') }}">View List</a></li>
+                <li><a href="{{ url('admin/products/create') }}">Add New Product</a></li>                
+              <li><a href="{{ url('admin/products') }}">View Product List</a></li>
               <li><a href="{{ url('admin/products/expired') }}">View Expired Product List</a></li>
+              <li><a href="{{ url('admin/category') }}">Product Category List</a></li>
               
             </ul>
           </li>
@@ -56,8 +56,8 @@
               </span>
           </a>
           <ul class="treeview-menu">
-              <li><a href="{{ url('admin//add') }}">Add New User</a></li>
-            <li><a href="{{ url('users') }}">View User List</a></li>
+              <li><a href="{{ url('admin/users/create') }}">Add New User</a></li>
+            <li><a href="{{ url('admin/users') }}">View User List</a></li>
             <li><a href="{{ url('admin/roles') }}">View Role List</a></li>
             
             

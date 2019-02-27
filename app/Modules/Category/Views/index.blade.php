@@ -13,11 +13,25 @@
                                 
                                     <thead>
                                     <tr>
-                                        <th>{{ trans('Category::words.sn')}}</th>
-                                        <th>{{ trans('Category::words.displayName')}}</th>
-                                        <th>{{ trans('Category::words.actions')}}</th>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
                                     </tr>
                                     </thead>
+                                    @foreach($data as $value)
+                                    <tr>
+                                        <td>{{ $value->id }}</td>
+                                        <td>{{ $value->category_name }}</td>
+                                        <td>Available</td>
+                                        <td>
+                                            <a href="{{ route('category.edit', $value->id)}}" class="btn btn-outline-primary" alt="@lang('words.edit')"> <i class="fa fa-pencil"></i></a>
+                                
+                                            <a href="{{ route('category.delete', $value->id)}}" class="btn btn-outline-danger" alt="@lang('words.delete')"><i class="fa fa-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+
                                     <tbody>
                                 </table>
                         </div>
@@ -32,19 +46,7 @@
         jQuery(function($) {
             $.noConflict();
 
-            $('#table').DataTable({
-                processing: true,
-                serverSide: true,
-                buttons: [
-                    'csv', 'excel', 'pdf', 'print', 'reset', 'reload'
-                ],
-                ajax: '{!! route('category.data') !!}',
-                columns: [
-                    { data: 'id', name: 'id' },
-                    { data: 'display_name', name: 'display_name' },
-                    {data: 'action', name: 'action', orderable: false, searchable: false}
-                ]
-            });
+            $('.table').DataTable();
         });
     </script>
 @endsection

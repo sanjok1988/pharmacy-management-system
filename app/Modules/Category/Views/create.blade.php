@@ -10,14 +10,14 @@ if(isset($action) && $action == 'edit')
 ?>
 <div class="box-header">
    
-   <h3 class="box-title">Products Create</h3>
+   <h3 class="box-title">category Create</h3>
  
-   <a class="btn btn-success btn-sm pull-right" title="List" href="{{ route('product.index')}}" ><i class="fa fa-list"></i> List</a>
+   <a class="btn btn-success btn-sm pull-right" title="List" href="{{ route('category.index')}}" ><i class="fa fa-list"></i> List</a>
 </div>
 <!-- /.box-header -->
 <div class="box-body">
    <!-- form start -->
-   <form role="form" method="POST" action="{{ route('product.store')}}">
+   <form role="form" method="POST" action="{{ route('category.store')}}">
       <input type="hidden" name="_token" value="{{ csrf_token() }}">
       @if($is_editing)
       <input type="hidden" name="id" value="{{ $data->id }}">
@@ -25,15 +25,23 @@ if(isset($action) && $action == 'edit')
       <div class="box-body">
                             <form  method="post" class="" action="{{ route('category.store') }}" enctype='multipart/form-data' >
                                 @csrf
+                                @if($is_editing)
+                                <input type="hidden" name="id" value="{{ $data->id }}">
+                                @endif
                                 <div class="form-group">
                                     <label for="name">Display Name</label>
-                                    <input type="text" name="name" class="form-control" id="" placeholder="name" required>
+                                    <input type="text" name="category_name" class="form-control" id="" placeholder="name" value="{{ ($is_editing)?$data->category_name:'' }}" required>
                                     <small class="text-danger">{{ $errors->first('category_name') }}</small>
                                 </div>
                                 <div class="form-group">
                                     <label for="display_name">Slug name</label>
-                                    <input type="text" name="slug" class="form-control" id="" placeholder="display name">
+                                    <input type="text" name="slug" class="form-control" id="" placeholder="Unique name" value="{{ ($is_editing)?$data->slug:'' }}" {{ ($is_editing)?"disabled":'' }}>
                                     <small class="text-danger">{{ $errors->first('slug') }}</small>
+                                </div>
+                                <div class="form-group">
+                                    <label for="display_name">Description</label>
+                                    <input type="text" name="details" class="form-control" id="" placeholder="Description" value="{{ ($is_editing)?$data->details:'' }}">
+                                    <small class="text-danger">{{ $errors->first('details') }}</small>
                                 </div>
                               
                                 <div class="box-footer pull-right">

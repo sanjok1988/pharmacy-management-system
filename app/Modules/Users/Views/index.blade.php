@@ -1,51 +1,49 @@
-@include('admin.layouts.locale')
-@extends('admin.layouts.app')
+
+@extends('layouts.master')
 @section('content')
-    <div class="wrapper">
-        <div class="container-fluid">
-            <div class="paypasa-heading">
-                <h4>{{ trans('Users::words.title')}}</h4>
-            </div>
-            <div class="row"  style="height:50px;">
-                @if (Session::get('message'))
-                    <div class="alert alert-success alert-dismissable" role="alert">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        {{ Session::get('message') }}
-                    </div>
-                @endif
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <div class="card m-b-20">
-                        <div class="card-body">
-
-                            <span class="float-right mb-12 mr-12">
-
-                    <a class="btn btn-primary waves-effect waves-light" title="Create Vacancy" href="{{ route('createUser') }}"><i class="fa fa-plus"></i> {{ trans('Users::words.addNew')}}</a>
+<div class="box-header">
+        @if(isset($page))
+        <h3 class="box-title">Users List</h3>
+        @endif
+        <a class="btn btn-success btn-sm pull-right" title="Create New" href="{{ route('user.create')}}" ><i class="fa fa-plus"></i> Create New</a>
+      </div>
+      <!-- /.box-header -->
+      <div class="box-body">
+                   
                              </span>
                             <table id="table" class="table table-bordered table-hover" >
                                 <thead>
                                 <tr>
-                                    <th>{{ trans('Users::words.sn')}}</th>
-                                    <th>{{ trans('Users::words.name')}}</th>
-                                    <th>{{ trans('Users::words.email')}}</th>
-                                    <th>{{ trans('Users::words.created_at')}}</th>
-                                    <th>{{ trans('Users::words.actions')}}</th>
+                                    <th>ID</th>
+                                    <th>User Name</th>
+                                    <th>Email</th>
+                                    <th>Created Date</th>
+                                    <th>Actions</th>
                                     
                                 </tr>
                                 </thead>
                                 <tbody>
+                                        @if(count($data)>0)
+                                        @foreach($data as $value)
+                                      <tr>
+                                        <td>{{$value->id }}</td> 
+                                        <td>{{$value->name }}</td>
+                                
+                                        <td>{{ $value->email }}</td>       
+                                        <td>{{ $value->created_at }}</td>
+                                       
+                                       
+                                        <td>
+                                            <a href="{{ route('user.edit', $value->id)}}" class="btn btn-outline-primary" alt="@lang('words.edit')"> <i class="fa fa-pencil"></i></a>
+                                
+                                            <a href="{{ route('user.delete', $value->id)}}" class="btn btn-outline-danger" alt="@lang('words.delete')"><i class="fa fa-trash"></i></a>
+                                        </td>
+                                      </tr>    
+                                      @endforeach    
+                                      @endif      
+                                    </tbody>
                             </table>
-                        </div>
-                    </div>
-                </div>
-                <!-- end col -->
-            </div>
-            <!-- end row -->
-
-        </div>
+    
         <!-- end container-fluid -->
     </div>
 
@@ -55,29 +53,10 @@
         jQuery(function($) {
             $.noConflict();
 
-            $('#table').DataTable({
-                processing: true,
-                serverSide: true,
-                buttons: [
-                    'csv', 'excel', 'pdf', 'print', 'reset', 'reload'
-                ],
-                ajax: '{!! route('users.data') !!}',
-                columns: [
-                    { data: 'id', name: 'id' },
-                    { data: 'name', name: 'name' },
-                    { data: 'email', name: 'email' },
-                    { data: 'created_at', name: 'created_at' },
-                   
-                    {data: 'action', name: 'action', orderable: false, searchable: false}
-                ]
+            $('.table').DataTable({
+               
             });
         });
     </script>
-    <script>
-        $(document).ready(function() {
-            setTimeout(function() {
-                jQuery(".alert").fadeOut(1500);
-            },3000);
-        });
-    </script>
+   
 @endsection

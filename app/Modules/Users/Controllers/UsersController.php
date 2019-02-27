@@ -2,30 +2,35 @@
 
 namespace App\Modules\Users\Controllers;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\CreateUserRequest;
-use Illuminate\Contracts\Encryption\DecryptException;
-use App\Modules\Users\Repository\IUsers;
 use Hash;
+use App\User;
 use Redirect;
 use Validator;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+
+use Illuminate\Contracts\Encryption\DecryptException;
 
 class UsersController extends Controller
 {
-    
     protected $model;
 
-    public function __construct(IUsers $model)
+    public function __construct(User $user)
     {
         //$this->middleware('auth');
-        $this->model = $model;
+    
+        $this->user = $user;
+    }
+
+    public function index()
+    {
+        $data = $this->user->paginate(10);
+        return view("Users::index", compact('data'));
     }
 
     public function getData()
     {
-        
         $data = $this->model->paginate(10);
         
         $response = [
@@ -63,7 +68,7 @@ class UsersController extends Controller
 
         ]);
 
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return response()->json($validator);
         }
 
@@ -91,7 +96,12 @@ class UsersController extends Controller
         }
     }
 
-
+    public function create()
+    {
+        $page = "users";
+        $action = 'create';
+        return view("Users::create", compact('action', 'page'));
+    }
     /**
      * Show the form for editing the specified resource.
      *
@@ -102,7 +112,7 @@ class UsersController extends Controller
     {
         $user = $this->model->find($id);
 
-        return response()->json($user);
+        return view('Users::edit', compact('user'));
     }
 
     /**
@@ -112,8 +122,9 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update($id, Request $request) {
-        if($request->new_password) {
+    public function update($id, Request $request)
+    {
+        if ($request->new_password) {
             $this->changePassword($id, $request);
         } else {
             $this->update_details($id, $request);
@@ -121,8 +132,6 @@ class UsersController extends Controller
     }
     public function update_details($id, Request $request)
     {
-        
-
         $validator = Validator::make($request->all(), [
             'old_password' => 'required',
             'name'=>'required',
@@ -130,17 +139,17 @@ class UsersController extends Controller
             'current_password' => 'required'
         ]);
 
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return response()->json($validator);
         }
 
         $user = $this->model->find($id);
 
-        if (!$user) {         
+        if (!$user) {
             return response()->json('user not found');
         }
 
-        if(!Hash::check($request->current_password, $user->password)) {
+        if (!Hash::check($request->current_password, $user->password)) {
             return response()->json(["status"=>"error", "message"=>"incorrect password"]);
         }
 
@@ -152,12 +161,12 @@ class UsersController extends Controller
         } else {
             $response = "success";
         }
-        
-        return response()->json($response);
-
+    
+        return redirect(route('user.index'));
     }
 
-    public function changePassword($id, Request $request){
+    public function changePassword($id, Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'old_password' => 'required',
             'name'=>'required',
@@ -167,13 +176,12 @@ class UsersController extends Controller
             'new_password' => 'confirmed|min:4|different:password'
         ]);
 
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return response()->json($validator);
         }
 
         $user = $this->model->find($id);
         if (!$user) {
-         
             return response()->json('user not found');
         }
         $user->password = Hash::make($request->input('new_password'));
@@ -183,7 +191,7 @@ class UsersController extends Controller
             $response = "success";
         }
         
-        return response()->json($response);
+        return redirect(route('user.index'));
     }
 
     /**
@@ -192,20 +200,14 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         $data = $this->user->find($id);
         if ($data->delete()) {
-            return response()->json("success");
-        }else {
-            return response()->json(
-                ["status"=>"error",
-                "code" => 404,
-                "message"=> "process failed"
-              ]);
+            $request->session()->flash('message', trans('words.success'));
+        } else {
+            $request->session()->flash('message', trans('words.failed'));
         }
+        return redirect(route('user.index'));
     }
-
-
-
 }

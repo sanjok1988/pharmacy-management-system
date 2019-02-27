@@ -20,9 +20,10 @@ class Products extends Migration
             $table->date('mfd');
             $table->date('exp_date');
             $table->string('company');
-            $table->string('currency');
+            $table->string('currency')->nullable();
             $table->unsignedInteger('price');
             $table->string('details');
+            $table->string('status');
             $table->softDeletes();
             $table->timestamps();
         });

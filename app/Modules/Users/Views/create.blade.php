@@ -1,17 +1,27 @@
-@include('admin.layouts.locale')
-@extends('admin.layouts.app')
+
+@extends('layouts.master')
 @section('content')
-    <div class="wrapper">
-        <div class="container-fluid">
-            <div class="paypasa-heading">
-                <h4>User Create</h4>
-            </div>
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="card m-b-20">
-                        <div class="card-body">
-                            <form   method="post" class="" action="{{ route('storeUser') }}" enctype='multipart/form-data' >
+<?php
+
+$is_editing = false;
+if(isset($action) && $action == 'edit')
+{
+    $is_editing = true;
+}
+?>
+<div class="box-header">
+        @if(isset($page))
+        <h3 class="box-title">Users List</h3>
+        @endif
+        <a class="btn btn-success btn-sm pull-right" title="Create New" href="{{ route('user.index')}}" ><i class="fa fa-list"></i> list</a>
+      </div>
+      <!-- /.box-header -->
+      <div class="box-body">
+                            <form   method="post" class="" action="{{ route('user.store') }}" enctype='multipart/form-data' >
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                @if($is_editing)
+                                <input type="hidden" name="id" value="{{ $data->id }}">
+                                @endif
 
                                 <div class="form-group has-feedback {{ $errors->has('name') ? ' has-error' : '' }}">
                                     <label>Name</label>
@@ -53,26 +63,13 @@
                                 </div>
 
                                 <div class="form-group m-b-50">
-                                    <div>
-                                         <button type="submit" class="btn btn-primary waves-effect waves-light float-right">Create</button>
-                                    </div>
+                                        <div class="box-footer pull-right">
+                                                <button type="submit" class="btn btn-primary">{{ ($is_editing)?"Update":"Add New" }}</button>
+                                             </div>
                                 </div>
                         </div>
                        
                     </div>
-                </div>
-
-                <!-- end col -->
-
-            </div>
-            <!-- end container -->
-        </div>
+                
     </div>
 @endsection
-<script>
-    $(document).ready(function() {
-        setTimeout(function() {
-            $(".content").fadeOut(1500);
-        },3000);
-    });
-</script>
