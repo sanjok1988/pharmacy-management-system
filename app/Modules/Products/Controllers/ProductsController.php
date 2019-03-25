@@ -11,7 +11,7 @@ use App\Http\Requests\ProductRequest;
 use Illuminate\Support\Facades\Session;
 use App\Modules\Category\Models\Category;
 use App\Modules\Products\Models\Products;
-use App\Http\Traits\UploadTrait as Upload;
+use App\Traits\Upload;
 
 class ProductsController extends Controller
 {
@@ -71,11 +71,11 @@ class ProductsController extends Controller
         $data = $request->except('_except');
         
         //upload image using trait
-        if ($request->file('image') != null) {
-            $image = $this->upload($request->file('image'));
+        if ($request->hasFile('image')) {
+            $image = $this->createThumbnail($request->file('image'), 320, 320);
           
             //insert imagename in array
-            $product['image'] = $image;
+            $data['image'] = $image;
         }
         
         if ($request->has('id')) {

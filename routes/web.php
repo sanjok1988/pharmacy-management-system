@@ -9,9 +9,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', function () {
-    return view('welcome');
-});
+
 
 //to switch the language in cms
 Route::get('setLocale/{locale}', 'AdminController@setLocale');
@@ -39,13 +37,11 @@ Auth::routes();
 * $this->get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm');
 * $this->post('password/reset', 'Auth\ResetPasswordController@reset');
  */
-
-Route::get('/admin', 'AdminController@index')->name('admin');
-Route::get('/admin/profile', 'AdminController@adminprofile');
-Route::post('/admin/profile', 'AdminController@adminprofile');
-
-
-
+Route::group(['middleware'=>['auth'], 'prefix' => 'admin'], function () {
+    Route::get('/', 'AdminController@index')->name('admin');
+    Route::get('/profile', 'AdminController@adminprofile');
+    Route::post('/profile', 'AdminController@adminprofile');
+});
 
 /**
  * export excel routes

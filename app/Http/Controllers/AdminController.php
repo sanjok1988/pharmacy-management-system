@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 
 class AdminController extends Controller
@@ -11,7 +12,7 @@ class AdminController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+        //$this->middleware('admin');
     }
     public function index()
     {

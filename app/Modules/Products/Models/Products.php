@@ -17,4 +17,12 @@ class Products extends Model
     {
         return $this->belongsTo('\App\Modules\Category\Models\Category');
     }
+
+    public static function getByCategory($cid, $take = 4)
+    {
+        return Self::where('category_id', $cid)
+        ->join('categories as c', 'c.id', '=', 'products.category_id')
+        ->take($take)
+        ->get();
+    }
 }

@@ -17,7 +17,7 @@ if(isset($action) && $action == 'edit')
 <!-- /.box-header -->
 <div class="box-body">
    <!-- form start -->
-   <form role="form" method="POST" action="{{ route('product.store')}}">
+   <form role="form" method="POST" action="{{ route('product.store')}}" enctype="multipart/form-data">
       <input type="hidden" name="_token" value="{{ csrf_token() }}">
       @if($is_editing)
       <input type="hidden" name="id" value="{{ $data->id }}">
@@ -52,7 +52,7 @@ if(isset($action) && $action == 'edit')
                         </div>
                     <div class="form-group">
                     <label for="">Description</label>
-                    <input type="text" class="form-control" name="details" placeholder="Description" value="{{ ($is_editing)?$data->details:'' }}">
+                    <textarea type="text" class="form-control" name="details" placeholder="Description">{{ ($is_editing)?$data->details:'' }}</textarea>
                     <small class="text-danger">{{ $errors->first('details') }}</small>
                     </div>
                     
@@ -74,9 +74,22 @@ if(isset($action) && $action == 'edit')
                         <input type="radio" name="category_id" value="{{ $cat->id }}" {{ ($is_editing && $data->category_id == $cat->id)?'checked':'' }}>{{$cat->category_name}}<br>
                         @endforeach  
                        
-                </div>
+                    </div>
                 
             </div>
+            <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="">Upload Image</label>
+                        <hr>
+                       @if($is_editing)
+                        <img src="{{ asset('uploads/'.$data->image )}}" alt="" width="100%" />
+                       @endif
+                        <input type="file" name="image" />
+                                  
+                       
+                    </div>
+                    
+                </div>
 
          <!-- /.box-body -->
          <div class="box-footer pull-right">

@@ -13,6 +13,29 @@ class FrontendController extends Controller
         $this->product = $product;
     }
 
+    public function home()
+    {
+        $products = $this->getProducts()->take(4)->get();
+        
+        return view('Frontend::index', compact('products'));
+    }
+
+    /**
+     * Common function to retrive products
+     *
+     * @return Builder
+     */
+    public function getProducts()
+    {
+        return $this->product->select('products.*', 'c.category_name')->join('categories as c', 'c.id', '=', 'products.category_id');
+    }
+
+    public function getByCategory($cid)
+    {
+        $products= $this->getProducts()->where('category_id', $cid)->get();
+        return $products;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -20,26 +43,40 @@ class FrontendController extends Controller
      */
     public function getProductList()
     {
-        return view("Frontend::products");
+        $data = $this->getProducts()->paginate(10);
+        return view("Frontend::products", compact('data'));
     }
 
-    public function getProductData()
+    public function view(Request $request)
+    {
+        $data = $this->getProducts()->find($request->id);
+        $similars = $this->getProducts()->where('category_id', $data->category_id)->take(8)->get();
+        return view("Frontend::view", compact('data', 'similars'));
+    }
+
+    public function getProductData(Request $request)
     {
         $data = $this->product->paginate(10);
-        
-        $response = [
-            'pagination' => [
-                'total' => $data->total(),
-                'per_page' => $data->perPage(),
-                'current_page' => $data->currentPage(),
-                'last_page' => $data->lastPage(),
-                'from' => $data->firstItem(),
-                'to' => $data->lastItem()
-            ],
-            'list' => $data
-          
+        if ($request->ajax()) {
+            $response = [
+                'pagination' => [
+                    'total' => $data->total(),
+                    'per_page' => $data->perPage(),
+                    'current_page' => $data->currentPage(),
+                    'last_page' => $data->lastPage(),
+                    'from' => $data->firstItem(),
+                    'to' => $data->lastItem()
+                ],
+                'list' => $data
+              
+    
+            ];
+            return response()->json($response);
+        }
+    }
 
-        ];
-        return response()->json($response);
+    public function contact()
+    {
+        return view('Frontend::contact');
     }
 }

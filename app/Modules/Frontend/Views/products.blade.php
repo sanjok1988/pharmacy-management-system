@@ -1,131 +1,62 @@
-@extends('layouts.front-master')
+@extends('Frontend::master')
 @section('content')
-<ul class="list-group">
-<td class="list-group-item" v-for="value in products"></td>
-       
-      </ul>
 
-      <table class="table">
-            <thead>
-              <tr>
-                <th>Product Name</th>                
-                <th>Company</th>        
-                <th>MFD</th>
-                <th>Exp. Date</th>
-                <th>Price</th>                
-                <th>Status</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-               
-              <tr  v-for="value in products">
-                <td>@{{ value.product_name }}</td>        
-                <td>@{{ value.company }}</td>       
-                <td>@{{ value.mfd }}</td>
-                <td>@{{ value.exp_date }}</td>
-                <td>@{{ value.price }}</td>
-                <td>
-                  
-                  <span class="badge badge-success" ></span>
-                 
-                </td>
-                <td>
-                    <button @click="addToCart(value.id)" class="btn btn-outline-primary" alt="add to cart"> <i class="fa fa-plus"></i></button>
-        
+<div class="product ">
+    <div class="container ">
+        <div class="spec ">
+            <h3>Products</h3>
+            <div class="ser-t">
+                <b></b>
+                <span><i></i></span>
+                <b class="line"></b>
+            </div>
+        </div>
+            <div class="tab-head ">
+                
+                <div class=" tab-content tab-content-t ">
+                    <div class="tab-pane active text-style" id="tab1">
+                        <div class=" con-w3l">
+                                @foreach($data as $p)
+                            <div class="col-md-3 m-wthree">
+                                <div class="col-m">								
+                                    <a href="{{ route('front.products.view', ['id'=>$p->id]) }}" class="offer-img">
+                                        <img src="{{ asset('uploads/'.$p->image)}}" class="img-responsive" alt="">
+                                        <div class="offer"><p><span>{{ $p->category_name }}</span></p></div>
+                                    </a>
+                                    <div class="mid-1">
+                                        <div class="women">
+                                        <h6><a href="{{ route('front.products.view', ['id'=>$p->id]) }}">{{ $p->product_name }}</a></h6>							
+                                        </div>
+                                        <div class="mid-2">
+                                            <p ><em class="item_price">Rs. {{ $p->price }}</em></p>
+                                              <div class="block">
+                                                <div class="starbox small ghosting"> </div>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="add">
+                                           <a class="btn btn-danger my-cart-btn my-cart-b " href="{{ route('add.to.cart', ['id'=>$p->id])}}">Add to Cart</a>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
+                            
+                            <div class="clearfix"></div>
+                         </div>
+                    </div>
                     
-                </td>
-              </tr>    
-                   
-            </tbody>
-          </table>
-@endsection
-
-@section('script')
-<script>
-const vue = new Vue({
-    el:"#app",
-    
-    data:{
-        products:[],
-        cart : 0,
-       
-        pagination: {
-			total: 0,
-			per_page: 2,
-			from: 1,
-			to: 0,
-			current_page: 1
-		},
-		offset: 4,
-		formErrors: {},
-		formErrorsUpdate: {},
-
-		order:null
-    },
-    computed: {
+                    
+                    
+                </div>
+            </div>
         
+    </div>
+ 
+    </div>
 
-        isActived: function () {
-            return this.pagination.current_page;
-        },
-        pagesNumber: function () {
-            if (!this.pagination.to) {
-                return [];
-            }
-            var from = this.pagination.current_page - this.offset;
-            if (from < 1) {
-                from = 1;
-            }
-            var to = from + (this.offset * 2);
-            if (to >= this.pagination.last_page) {
-                to = this.pagination.last_page;
-            }
-            var pagesArray = [];
-            while (from <= to) {
-                pagesArray.push(from);
-                from++;
-            }
-            return pagesArray;
-        }
-        },
-    mounted(){
-        this.getProducts();
-    },
-    methods:{
-        addToCart(pid){alert(pid);
-            var p = [];
-            this.cart++;
-            p = JSON.parse(localStorage.getItem('pid'));
-            if(p)
-            p.push(pid);
-            else
-            localStorage.setItem('pid', pid);
-            
-            localStorage.setItem('pid', JSON.stringify(p));
-            // this.$http.get('products/add/to/cart').then((response) => {
-				
-				
-			// });
-        },
-
-        getProducts(){
-           
-			this.$http.get('products/list').then((response) => {
-				this.products = response.data.list.data;
-                this.pagination = response.data.pagination;
-				
-			});
-        },
-        changePage: function (page) {
-			this.pagination.current_page = page;
-			this.fetchAll(page);
-		},
-
-    }
-});
-</script>
+{{ $data->render() }}
+          
 @endsection
-@section('style')
-        
-@endsection
+

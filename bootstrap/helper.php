@@ -1,6 +1,18 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+
+if (!function_exists('isLoggedIn')) {
+    function isLoggedIn()
+    {
+        if (Auth::user()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
 
 if (!function_exists('setCookie')) {
     function setCookie($cookieName, $cookieValue)
@@ -52,23 +64,17 @@ function getUserIP()
 {
     $ipaddress = '';
     //whether ip is from share internet
-    if (!empty($_SERVER['HTTP_CLIENT_IP']))   
-    {
-    $ip_address = $_SERVER['HTTP_CLIENT_IP'];
+    if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+        $ip_address = $_SERVER['HTTP_CLIENT_IP'];
     }
     //whether ip is from proxy
-    elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR']))  
-    {
-    $ip_address = $_SERVER['HTTP_X_FORWARDED_FOR'];
+    elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        $ip_address = $_SERVER['HTTP_X_FORWARDED_FOR'];
     }
     //whether ip is from remote address
-    else
-    {
-    $ip_address = $_SERVER['REMOTE_ADDR'];
+    else {
+        $ip_address = $_SERVER['REMOTE_ADDR'];
     }
 
     return $ipaddress;
 }
-
-
-
