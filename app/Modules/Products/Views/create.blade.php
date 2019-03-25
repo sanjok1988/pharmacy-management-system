@@ -60,16 +60,26 @@ if(isset($action) && $action == 'edit')
             <div class="col-md-3">
                 <div class="form-group">
                     <label for="">Product Status</label>
-                    <hr>
+                    <br>
                    
                     <input type="radio" name="status" value="available" {{ ($is_editing && $data->status == 'available')?'checked':'' }} >Available<br>
                     <input type="radio" name="status" value="unavailable"  {{ ($is_editing && $data->status == 'uavailable')?'checked':'' }}>Unavailable<br>                 
                    
                 </div>
                 <hr>
+                <div class="form-group">
+                        <label for="" style="border-bottom:1px solid #ccc">Product Types</label>
+                       <br>
+                       
+                        <input type="radio" name="type" value="pres" {{ ($is_editing && $data->type == 'pres')?'checked':'' }} >Prescription<br>
+                        <input type="radio" name="type" value="nonpres"  {{ ($is_editing && $data->type == 'nonpres')?'checked':'' }}>Non Prescription<br>                 
+                       
+                </div>
+
                     <div class="form-group">
+                            <hr>
                         <label for="">Product Category</label>
-                        <hr>
+                       
                         @foreach($categories as $cat)
                         <input type="radio" name="category_id" value="{{ $cat->id }}" {{ ($is_editing && $data->category_id == $cat->id)?'checked':'' }}>{{$cat->category_name}}<br>
                         @endforeach  

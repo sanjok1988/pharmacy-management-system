@@ -17,4 +17,13 @@ class Category extends Model
     {
         return $this->hasMany('\App\Modules\Products\Models\Products');
     }
+
+    public static function getCategoryIdBySlug($slug)
+    {
+        $cat = Self::where('slug', $slug)->first();
+        if ($cat) {
+            return $cat->id;
+        }
+        return null;
+    }
 }

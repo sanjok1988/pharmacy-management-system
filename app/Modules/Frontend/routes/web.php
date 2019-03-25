@@ -7,4 +7,8 @@ Route::group(['module' => 'Frontend', 'middleware' => ['web'], 'namespace' => 'A
     Route::get('products/list', 'FrontendController@getProductData')->name('front.product-data');
 
     Route::get('contact', 'FrontendController@contact')->name('contact');
+
+    //category wise
+    Route::get('products/category', 'FrontendController@getByCategory')->name('front.products.category');
+    Route::get('products/type', 'FrontendController@getByType')->name('front.products.type');
 });

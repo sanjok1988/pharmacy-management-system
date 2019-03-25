@@ -4,6 +4,7 @@ namespace App\Modules\Frontend\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Modules\Category\Models\Category;
 use App\Modules\Products\Models\Products;
 
 class FrontendController extends Controller
@@ -30,10 +31,20 @@ class FrontendController extends Controller
         return $this->product->select('products.*', 'c.category_name')->join('categories as c', 'c.id', '=', 'products.category_id');
     }
 
-    public function getByCategory($cid)
+    public function getByCategory(Request $request)
     {
-        $products= $this->getProducts()->where('category_id', $cid)->get();
-        return $products;
+        $slug = $request->slug;
+        $cid = Category::getCategoryIdBySlug($slug);
+        $data= $this->getProducts()->where('category_id', $cid)->paginate(10);
+        return view("Frontend::products", compact('data'));
+    }
+
+    public function getByType(Request $request)
+    {
+        $slug = $request->slug;
+       
+        $data= $this->getProducts()->where('type', $slug)->paginate(10);
+        return view("Frontend::products", compact('data'));
     }
 
     /**
