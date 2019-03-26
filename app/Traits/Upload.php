@@ -64,7 +64,7 @@ trait Upload
 
             return $filename;
         } catch (\Exception $ex) {
-            return back()->withErrors($ex.getMessage());
+            return back()->withErrors($ex->getMessage());
         }
     }
 

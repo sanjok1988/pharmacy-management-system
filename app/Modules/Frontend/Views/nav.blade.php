@@ -44,7 +44,8 @@
             </nav>
              <div class="cart" >
             
-             <a href="{{ route('cart.list') }}"><span class="fa fa-shopping-cart my-cart-icon"><span class="badge badge-notify my-cart-badge"></span></span></a>
+             <a href="{{ route('cart.list') }}"><span class="fa fa-shopping-cart my-cart-icon"><span class="badge badge-notify my-cart-badge"></span>
+                </span><b style="margin-left:30px">Rs.@{{ gt }}</b>
             </div>
             <div class="clearfix"></div>
         </div>

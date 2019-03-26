@@ -25,7 +25,7 @@ class CategoryRequest extends FormRequest
     {
         return [
             'category_name'=>'required',
-            'slug'=>'required|alpha_dash|unique:categories,slug'
+            //'slug'=>'required|alpha_dash|unique:categories,slug'
         ];
     }
 }

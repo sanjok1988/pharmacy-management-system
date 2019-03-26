@@ -86,6 +86,13 @@ class FrontendController extends Controller
         }
     }
 
+    public function getProductByType(Request $request){
+        
+       
+        $data= $this->getProducts()->where('type', $request->type)->take(8)->get();
+        return response()->json($data);
+    }
+
     public function contact()
     {
         return view('Frontend::contact');

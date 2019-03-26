@@ -13,21 +13,34 @@ class CartsController extends Controller
     {
         $this->product = $product;
     }
+
+    public function getGrandTotal(){
+        $total = Cart::total();
+        return response()->json(['total'=>$total]);
+    }
     public function addToCart(Request $request)
     {
         $product = $this->product->find($request->id);
-        
-        Cart::add($product);
+        $data = [
+            'id' => $product->id,
+            'name'=> $product->product_name,
+            'qty'=>1,
+            'price'=> $product->price
+        ];
+
+        Cart::add($data);
+        $total = Cart::total();
+        if($request->ajax()){
+            return response()->json(['total'=>$total]);
+        }
+
         $request->session()->flash('message', "product is added to cart");
         return redirect()->back();
     }
 
     public function cart(Request $request)
     {
-        Cart::add([
-            ['id' => '1', 'name' => 'Product 1', 'qty' => 1, 'price' => 10.00],
-            ['id' => '2', 'name' => 'Product 2', 'qty' => 1, 'price' => 10.00, ]
-          ]);
+        
         $data = Cart::content();
        
 

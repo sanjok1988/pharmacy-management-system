@@ -26,14 +26,9 @@
                                 <span>Status: </span><span class="text-success"><strong>In Stock</strong></span>
                             </div>
                         </div></td>
-                        <td class="col-sm-1 col-md-1" style="text-align: center">
-                        <input type="number" class="form-control"  v-model.qty="item.qty">
-                       
-                        </td>
+                        <td class="col-sm-1 col-md-1 text-center"><strong>@{{ item.qty }}</strong></td>
                         <td class="col-sm-1 col-md-1 text-center"><strong>@{{ item.price }}</strong></td>
-                    <td class="col-sm-1 col-md-1 text-center">
-                        <input  type="number" class="form-control no-border"  v-model.total="getTotal(item)" v-on:change="foo" readonly>
-                    </td>
+                        <td class="col-sm-1 col-md-1 text-center"><strong>@{{ item.subtotal }}</strong></td>
                         <td class="col-sm-1 col-md-1">
                         <button type="button" class="btn btn-danger">
                             <span class="glyphicon glyphicon-remove"></span> Remove
@@ -46,30 +41,33 @@
                         <td>   </td>
                         <td>   </td>
                         <td><h5>Subtotal</h5></td>
-                    <td class="text-right"><h5><strong>@{{ subtotal }}</strong></h5></td>
+                    <td class="text-right"><h5><strong>@{{ getSubTotal }}</strong></h5></td>
                     </tr>
                     <tr>
                         <td>   </td>
                         <td>   </td>
                         <td>   </td>
                         <td><h5>Estimated shipping</h5></td>
-                        <td class="text-right"><h5><strong>$6.94</strong></h5></td>
+                        <td class="text-right"><h5><strong>@{{ shipping }}</strong></h5></td>
                     </tr>
                     <tr>
                         <td>   </td>
                         <td>   </td>
                         <td>   </td>
                         <td><h3>Total</h3></td>
-                    <td class="text-right"><h3><strong><input  type="number" class="form-control no-border"  v-model="total" readonly></strong></h3></td>
+                    <td class="text-right"><h3><strong>@{{ getGrandTotal }}</strong></h3></td>
                     </tr>
                     <tr>
                         <td>   </td>
                         <td>   </td>
                         <td>   </td>
                         <td>
-                        <button type="button" class="btn btn-default">
+                        <a href="{{url('/')}}"><button type="button" class="btn btn-default">
                             <span class="glyphicon glyphicon-shopping-cart"></span> Continue Shopping
-                        </button></td>
+                        </button>
+                    </a>
+                        </a>
+                    </td>
                         <td>
                         <button type="button" class="btn btn-success">
                             Checkout <span class="glyphicon glyphicon-play"></span>
@@ -84,18 +82,17 @@
 @endsection
 
 @section('js')
+
 <script>
-        var vm = new Vue({
-            el:'#mycart',
+    
+       var vm = new Vue({
+            el:'#app',
             data:{
-                items:[{
-                    name:'',
-                    qty:'',
-                    price:''
-                }],
-                subtotal: 0,
-                total:0,
-                shipping:0
+                items:[],
+                subtotal: 0.0,
+                
+                shipping:120,
+                gt:0
 
 
             },
@@ -104,19 +101,30 @@
                     let sum = 0;
                     return 10;
                     },
-                    subtotal: function(){
-                        let sum = 0;
-                        // this.items.reduce(function(total, item){
-                        //     return total + item.price;
-                        // },0);
+                    getSubTotal() {
                         
+                        //console.log(Object.values(this.items));
+                        var sum = 0;
+                        for(const [key, value] of Object.entries(this.items)){
+                            
+                                console.log(value.name);
+                                sum += parseFloat(value.subtotal);
+                           
+                        }
+                        return this.subtotal = sum;
+                        
+                            
                     },
-                    foo: function(){
-                        return this.total += 10; 
+                    getGrandTotal() {
+                        return this.subtotal + this.shipping
                     }
+                        
+                       
+                    
                 },
             mounted(){
-                this.getCartList();
+                this.getCartList();  
+              
                 
             },
            
@@ -126,22 +134,26 @@
                         this.items = response.data;			
                         
                     });
+                    this.getGt();
                 },
                 getTotal(item){
                     return item.price * item.qty
                 },
-                foo(){
-                    alert(1);
-                }
+                getGt(){
+                    this.$http.get('cart/total').then((response)=>{
+                    
+                        this.gt = response.data.total;
+                        
+                    });
+                },
+                
+                   
+                
                 
             }
         });
     </script>
 @endsection
 @section('css')
-        <style>
-            .no-border{
-                border:none;
-            }
-            </style>
+ 
 @endsection

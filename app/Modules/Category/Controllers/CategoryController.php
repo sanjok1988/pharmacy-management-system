@@ -60,7 +60,7 @@ class CategoryController extends Controller
             if ($request->has('id')) {
                 $find = $this->category->find($request->id);
                 if ($find) {
-                    if ($find->update($request->id)) {
+                    if ($find->update($data)) {
                         Session::flash("message", "Successfully Updated");
                     } else {
                         Session::flash("message", "Update Failed");
