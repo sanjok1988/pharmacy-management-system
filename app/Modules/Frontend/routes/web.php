@@ -13,4 +13,5 @@ Route::group(['module' => 'Frontend', 'middleware' => ['web'], 'namespace' => 'A
     Route::get('products/type', 'FrontendController@getByType')->name('front.products.type');
 
     Route::get('products/data', 'FrontendController@getProductByType')->name('front.products.type.data');
+    Route::get('product/detail', 'FrontendController@getDetail')->name('product.detail');
 });

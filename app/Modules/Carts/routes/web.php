@@ -6,4 +6,7 @@ Route::group(['module' => 'Carts', 'middleware' => ['web'], 'namespace' => 'App\
     Route::get('cart/data', 'CartsController@getCartList')->name('cart.data');
 
     Route::get('cart/total', 'CartsController@getGrandTotal')->name('cart.total');
+
+    Route::get('cart/remove', 'CartsController@remove')->name('cart.remove');
+    Route::get('cart/checkout', 'CartsController@checkout')->name('cart.checkout')->middleware('customer');
 });

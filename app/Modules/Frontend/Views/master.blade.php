@@ -34,6 +34,8 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 
 <link href="{{ asset("vue/css/toastr.css")}}" rel="stylesheet" type="text/css">
 
+<link href="{{ asset('css/sweet.css') }}" rel="stylesheet" type="text/css">
+
 <script src="{{ asset('vue/vue.js') }}"></script>
 <script src="{{ asset('vue/vue-resource.js') }}"></script>
 <script src="{{ asset('vue/vuex.js') }}"></script>
@@ -49,7 +51,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 		<div class="container">
 			
 			<div class="logo">
-            <h1 ><a href="{{ url('/')}}">{{ config('app.name', 'Okhati') }}<span></span></a></h1>
+            <h1 ><a href="{{ url('/')}}">{{ config('app.name', 'Okhati') }}</a></h1>
 			</div>
 			@include('Frontend::nav')
 					
@@ -152,6 +154,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 <!-- //smooth scrolling -->
 <!-- for bootstrap working -->
 		<script src="{{ asset('front/js/bootstrap.js') }}"></script>
+		<script src="{{ asset('js/sweet.js') }}"></script>
 <!-- //for bootstrap working -->
 <script src="{{ asset('front/vue/my.js') }}"></script>
   

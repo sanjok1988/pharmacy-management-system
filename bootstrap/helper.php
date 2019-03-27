@@ -13,6 +13,26 @@ if (!function_exists('isLoggedIn')) {
         }
     }
 }
+function isLogIn(){
+    if ($res = Session::has('user')) {
+       
+        return $res;
+    } 
+}
+
+function isUser(){
+    if (Session::has('user')) {
+       
+        return Session::get('user');
+    } 
+}
+
+function getUserId(){
+    if (Session::has('user')) {
+       
+        return Session::get('user')->id;
+    } 
+}
 
 if (!function_exists('setCookie')) {
     function setCookie($cookieName, $cookieValue)
@@ -77,4 +97,12 @@ function getUserIP()
     }
 
     return $ipaddress;
+}
+
+function isPres($type){
+    if($type == "pres"){
+        return true;
+    }else{
+        return false;
+    }
 }

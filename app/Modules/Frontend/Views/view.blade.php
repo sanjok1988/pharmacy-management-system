@@ -114,8 +114,63 @@
 @endsection
 
 @section('js')
+<script>
+var id = '{{ request()->id }}';
+var vm = new Vue({
+    el:'#app',
+    store,
+    data:{
+        item:[],
+       
+        gt:0
 
+    },
+    mounted(){
+       
+        this.getGT();
+        this.get_product();
+    },
+    computed(){
 
+    },
+    methods:{
+        show(id){
+            window.location.href = 'product/view?id='+id;
+        },
+        add_to_cart(p){          
+            
+            this.$http.get('add/to/cart?id='+p.id).then((response)=>{
+                console.log(response.data.total);
+                this.getGT(response.data.total);
+                
+                toastr.success('Thank You!', 'Added To Cart', {
+                    timeOut: 5000
+                });
+    
+            });
+        },
+        get_product(){
+            this.$http.get('product/detail?id='+id).then((response)=>{
+                console.log(response);
+              
+                this.item(response.data)
+               
+                
+            });
+        },
+        getGT(){
+            this.$http.get('cart/total').then((response)=>{
+              
+               this.gt = response.data.total;
+                
+            });
+           
+        }
+        
+
+    }
+});
+</script>
 @endsection
 @section('css')
         

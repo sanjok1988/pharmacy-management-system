@@ -65,6 +65,10 @@ class FrontendController extends Controller
         return view("Frontend::view", compact('data', 'similars'));
     }
 
+    public function getDetail(Request $request){
+        return response()->json($this->getProducts()->find($request->id));
+    }
+
     public function getProductData(Request $request)
     {
         $data = $this->product->paginate(10);

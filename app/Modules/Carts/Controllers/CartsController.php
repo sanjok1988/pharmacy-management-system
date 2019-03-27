@@ -54,4 +54,17 @@ class CartsController extends Controller
             return response()->json($data);
         }
     }
+
+    public function remove(Request $request)
+    {
+        
+        Cart::remove($request->rid);
+       
+
+        return response()->json(200);
+    }
+
+    public function checkout(){
+        return view("Carts::payment");
+    }
 }

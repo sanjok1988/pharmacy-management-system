@@ -3,8 +3,8 @@ var vm = new Vue({
     el:'#app',
     store,
     data:{
-        pres:[],
-        nonpres:[],
+        item:[],
+       
         gt:0
 
     },
@@ -20,27 +20,6 @@ var vm = new Vue({
         show(id){
             window.location.href = 'product/view?id='+id;
         },
-        upload(id){
-            swal({
-                title: "Please Upload Prescription!",
-                text: "You Need To Sign In For Uploading!",
-                type: "info",
-                showCancelButton: true,
-                confirmButtonClass: "btn-success",
-                confirmButtonText: "Ok",
-                closeOnConfirm: false
-              },
-              function(){
-                window.location.href = 'upload?id='+id;
-              });
-
-          
-        
-            
-
-           
-            
-        },
         add_to_cart(p){
             console.log('loading');
             
@@ -54,7 +33,7 @@ var vm = new Vue({
     
             });
         },
-        get_products_by_type(type){
+        get_product(id){
             this.$http.get('products/data?type='+type).then((response)=>{
                 console.log(response);
                 if(type == 'pres')

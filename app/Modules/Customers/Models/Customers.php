@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Modules\Orders\Models;
+namespace App\Modules\Customers\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Orders extends Model {
+class Customers extends Model {
 
-    protected $table = "orders";
+    protected $table = "customers";
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
 }

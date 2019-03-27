@@ -25,4 +25,13 @@ class Products extends Model
         ->take($take)
         ->get();
     }
+
+    public static function getPrice($id)
+    {
+        $product = Self::find($id);
+        if($product){
+            return $product->id;
+        }
+        return null;
+    }
 }

@@ -21,7 +21,7 @@
                         <div class="media">
                             <a class="thumbnail pull-left" href="#"> <img class="media-object" src="http://icons.iconarchive.com/icons/custom-icon-design/flatastic-2/72/product-icon.png" style="width: 72px; height: 72px;"> </a>
                             <div class="media-body">
-                            <h4 class="media-heading"><a href="#">@{{ item.name}}</a></h4>
+                            <h4 class="media-heading"><a href="" @click.prevent="show(item.id)">@{{ item.name}}</a></h4>
                                 <h5 class="media-heading"> by <a href="#">Brand name</a></h5>
                                 <span>Status: </span><span class="text-success"><strong>In Stock</strong></span>
                             </div>
@@ -30,7 +30,7 @@
                         <td class="col-sm-1 col-md-1 text-center"><strong>@{{ item.price }}</strong></td>
                         <td class="col-sm-1 col-md-1 text-center"><strong>@{{ item.subtotal }}</strong></td>
                         <td class="col-sm-1 col-md-1">
-                        <button type="button" class="btn btn-danger">
+                        <button type="button" class="btn btn-danger" @click.prevent="remove(item,index)">
                             <span class="glyphicon glyphicon-remove"></span> Remove
                         </button></td>
                     </tr>
@@ -69,7 +69,7 @@
                         </a>
                     </td>
                         <td>
-                        <button type="button" class="btn btn-success">
+                        <button @click.prevent="checkout()" type="button" class="btn btn-success">
                             Checkout <span class="glyphicon glyphicon-play"></span>
                         </button></td>
                     </tr>
@@ -99,15 +99,14 @@
             computed : {
                     total: function() {
                     let sum = 0;
-                    return 10;
+                    
                     },
                     getSubTotal() {
                         
                         //console.log(Object.values(this.items));
                         var sum = 0;
-                        for(const [key, value] of Object.entries(this.items)){
-                            
-                                console.log(value.name);
+                        for(const [key, value] of Object.entries(this.items)){                            
+                               
                                 sum += parseFloat(value.subtotal);
                            
                         }
@@ -129,6 +128,12 @@
             },
            
             methods:{
+                checkout(){
+                    window.location.href = 'cart/checkout';
+                },
+                show(id){
+                    window.location.href = 'product/view?id='+id;
+                },
                 getCartList(){
                     this.$http.get('cart/data').then((response) => {
                         this.items = response.data;			
@@ -146,6 +151,16 @@
                         
                     });
                 },
+                remove(item, index){
+                    
+                    this.$http.get('cart/remove?rid='+item.rowId).then((response)=>{
+                        window.location.reload();
+                      
+					    
+                        
+                    });
+                    
+                }
                 
                    
                 
