@@ -60,7 +60,7 @@ class ProductsController extends Controller
     }
 
     /**
-     * store data in database
+     * store and update product data in database
      * upload image
      *
      * @param productRequest $request

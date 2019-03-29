@@ -18,6 +18,13 @@ class CartsController extends Controller
         $total = Cart::total();
         return response()->json(['total'=>$total]);
     }
+
+    /**
+     * Add To Cart
+     *
+     * @param Request $request
+     * @return void
+     */
     public function addToCart(Request $request)
     {
         $product = $this->product->find($request->id);

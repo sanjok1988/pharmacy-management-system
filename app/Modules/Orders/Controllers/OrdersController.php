@@ -39,12 +39,13 @@ class OrdersController extends Controller
             'user_id'=> getUserId(),
             'product_id' => $request->pid,
             'image' => $imagename,
-            'status' => 'pending'
+            'status' => 'pending',
+            'qty' => 1
         ];
         $p = Products::find($request->pid);
        
         if($p){
-            Cart::add(['id'=> $p->id, 'name'=> $p->product_name, 'price'=>$p->price, 'qty'=>1]);
+            Cart::add(['id'=> $p->id, 'name'=> $p->product_name, 'qty'=>1, 'price'=>$p->price ]);
         
             $this->order->create($data);
             return redirect(route('front.products.view', ['id'=>$request->pid]));

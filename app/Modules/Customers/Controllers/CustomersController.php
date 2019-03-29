@@ -25,6 +25,12 @@ class CustomersController extends Controller
         return view("Customers::login");
     }
 
+    /**
+     * Customer Login Method
+     *
+     * @param Request $request
+     * @return void
+     */
     public function login(Request $request)
     {
        
