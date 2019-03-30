@@ -110,7 +110,7 @@
    
     @yield('script')
     <script>
-    
+    var url = '{{ url("/") ;}}';
         </script>
 </body>
 </html>

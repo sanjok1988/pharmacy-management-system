@@ -1,6 +1,6 @@
 <div class="head-t">
         <ul class="card">
-            <li><a href="wishlist.html" ><i class="fa fa-heart" aria-hidden="true"></i>Wishlist</a></li>
+        
           
         <li><a href="{{ route('customer.register') }}" ><i class="fa fa-arrow-right" aria-hidden="true"></i>Register</a></li>
             <li><a href="{{ route('order.history') }}" ><i class="fa fa-file-text-o" aria-hidden="true"></i>Order History</a></li>
@@ -38,12 +38,13 @@
             </div> 
             <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
                 <ul class="nav navbar-nav ">
-                    <li class=" active"><a href="{{ url('/') }}" class="hyper "><span>Home</span></a></li>	
+                    <li class="{{ (Request::is('/'))?'active':'' }}"><a href="{{ url('/') }}" class="hyper "><span>Home</span></a></li>	
           
-                <li><a href="{{ route('front.products.list') }}" class="hyper"> <span>Products</span></a></li>
-                <li><a href="{{ route('front.products.type', ['slug'=>'pres']) }}" class="hyper"> <span>Prescription</span></a></li>
-                <li><a href="{{ route('front.products.type', ['slug'=>'nonpres']) }}" class="hyper"> <span>Non Prescription</span></a></li>
-                    <li><a href="{{ route('contact') }}" class="hyper"><span>Contact Us</span></a></li>
+                {{-- <li><a href="{{ route('front.products.list') }}" class="hyper"> <span>Products</span></a></li> --}}
+               
+                <li class="{{ (request()->type=='pres')?'active':'' }}"><a href="{{ route('front.products.type', ['type'=>'pres']) }}" class="hyper"> <span>Prescription</span></a></li>
+                <li class="{{ (request()->type=='nonpres')?'active':'' }}"><a href="{{ route('front.products.type', ['type'=>'nonpres']) }}" class="hyper"> <span>Non Prescription</span></a></li>
+                    <li class="{{ (Request::is('contact'))?'active':'' }}"><a href="{{ route('contact') }}" class="hyper"><span>Contact Us</span></a></li>
                 </ul>
             </div>
             </nav>

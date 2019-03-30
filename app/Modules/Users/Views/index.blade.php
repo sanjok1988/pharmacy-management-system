@@ -50,13 +50,13 @@
 @endsection
 @section('script')
     <script>
-        jQuery(function($) {
-            $.noConflict();
+        // jQuery(function($) {
+        //     $.noConflict();
 
-            $('.table').DataTable({
+        //     $('.table').DataTable({
                
-            });
-        });
+        //     });
+        // });
     </script>
    
 @endsection

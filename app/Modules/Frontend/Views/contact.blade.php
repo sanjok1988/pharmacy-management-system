@@ -136,3 +136,6 @@
 </div>
 <!-- //contact -->
 @endsection
+@section('js')
+<script src="{{ asset('front/vue/index.js') }}"></script>
+@endsection

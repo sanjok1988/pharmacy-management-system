@@ -38,3 +38,38 @@
                 </div>
             </div>
     @stop
+    @section('js')
+    
+    <script>
+    
+var vm = new Vue({
+    el:'#app',
+    store,
+    data:{
+     
+        gt:0
+
+    },
+    mounted(){
+       
+        this.getGT();
+    },
+    computed(){
+
+    },
+    methods:{
+        
+        getGT(){
+            this.$http.get('cart/total').then((response)=>{
+              
+               this.gt = response.data.total;
+                
+            });
+           
+        }
+        
+
+    }
+});
+    </script>
+    @endsection

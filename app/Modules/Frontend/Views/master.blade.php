@@ -58,7 +58,7 @@ function hideURLbar(){ window.scrollTo(0,1); } </script>
 	</div>			
 </div>
 @if(Session::has('message'))
-<p class="alert {{ Session::get('alert-class', 'alert-info') }}">{{ Session::get('message') }}</p>
+<p class="alert {{ Session::get('alert-class', 'alert-info') }}" style="text-align:center">{{ Session::get('message') }}</p>
 @endif
 
 

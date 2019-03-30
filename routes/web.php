@@ -14,6 +14,11 @@
 //to switch the language in cms
 Route::get('setLocale/{locale}', 'AdminController@setLocale');
 
+Route::post('/payment/add-funds/paypal', 'PaypalController@paywithpaypal')->name('paywithpaypal');
+
+Route::get('/pay', 'PaypalController@payForm')->name('pay');
+
+Route::get('status','PaypalController@getPaymentStatus')->name('status');
 /**
  * there is only post methods in Auth::routes for logout so we make here get method
  */

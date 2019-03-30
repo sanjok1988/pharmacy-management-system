@@ -43,7 +43,7 @@
               </a>
               <ul class="treeview-menu">
                 <li><a href="{{ url('admin/orders') }}">View Order List</a></li>
-                <li><a href="{{ url('admin/transaction') }}">View Transaction List</a></li>
+                {{-- <li><a href="{{ url('admin/transaction') }}">View Transaction List</a></li> --}}
                 
               </ul>
             </li>
@@ -58,7 +58,7 @@
           <ul class="treeview-menu">
               <li><a href="{{ url('admin/users/create') }}">Add New User</a></li>
             <li><a href="{{ url('admin/users') }}">View User List</a></li>
-            <li><a href="{{ url('admin/roles') }}">View Role List</a></li>
+           
             
             
           </ul>
